@@ -1,4 +1,5 @@
 //백준 2011번. 암호코드. 골드5. unsolved.
+//내가 놓치고 있었던 반례: input-100 / output-0
 
 #include <iostream>
 #include <string>
@@ -14,6 +15,9 @@ int ok(string str) {
 
 int zero_end(string str) {
     switch(stoi(str)) {
+        case 0: // 이게 마지막까지 놓쳤던 포인트...
+            return 0;
+            break;
         case 10:
             return 1;
             break;
@@ -109,54 +113,31 @@ int main() {
             if(stoi(str.substr(i-2,2))<10) {
                 check[i] = 0;
             } else {
-                check[i] = check[i-1] + 1;
+                check[i] = (check[i-1] + 1)%1000000;
             }
 
             if(zero_end(str.substr(i-2,2))==1){ // 10이나 20일 때
-                // if(check[i-1] - check[i-2] == 1){
-                //  check[i] = -1;
-                // } else { 
-                //     check[i] = check[i-1];
-                // }
-                //cout << "큰일남 20 or 10 등장함!!" << endl;
-                dp[i] = dp[i-2];
+                dp[i] = (dp[i-2])%1000000;
                 check[i] = 0;
-                //cout << "10 or 20 등장함..." << "\t";
-                //cout << "dp[" << i << "] = " << dp[i] << endl;
                 continue;
             }
 
-            if(check[i]-check[i-2]==2) {
+            if(check[i]%1000000-check[i-2]%1000000==2) {
                 dp[i] = (dp[i-2]+dp[i-1])%1000000;
-                //cout << "2연속 두자리수 만들기 가능함!" << "\t";
-                //cout << "dp[" << i << "] = " << dp[i] << endl;
-            } else if(check[i]-check[i-2]==1) {
+            } else if(check[i]%1000000-check[i-2]%1000000==1) {
                 dp[i] = (dp[i-2]*2)%1000000;
-                //cout << "직전엔 안 됐지만 이번엔 두자리수 만들기 가능함!" << "\t";
-                //cout << "dp[" << i << "] = " << dp[i] << endl;
             } else {
-                check[i] = check[i-1];
+                check[i] = (check[i-1])%1000000;
                 dp[i] = (dp[i-1])%1000000;
-                //cout << "두자리수 만들기가 계속 안 되네요..." << "\t";
-                //cout << "dp[" << i << "] = " << dp[i] << endl;
         }
 
         } else { // 27 이상의 숫자일 때
-            check[i] = check[i-1];
+            check[i] = (check[i-1])%1000000;
             dp[i] = (dp[i-1])%1000000;
-            //cout << "dp[" << i << "] = " << dp[i] << endl;
         }
-
-        // if(check[i] == -1){
-        //     dp[i] = dp[i-2];
-        //     check[i] = 0;
-        //     cout << "10 or 20 등장함..." << "\t";
-        //     cout << "dp[" << i << "] = " << dp[i] << endl;
-        // }
     }
 
-    cout << dp[n];
+    cout << dp[n]%1000000;
 
     return 0;
 }
-
