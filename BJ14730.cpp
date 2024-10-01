@@ -1,3 +1,5 @@
+// 백준 14730번. 謎紛芥索紀 (Small). 실버 5. 240925 solved.
+
 #include <iostream>
 using namespace std;
 
