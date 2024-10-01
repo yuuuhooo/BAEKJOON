@@ -1,4 +1,4 @@
-//백준 2011번. 암호코드. 골드5. unsolved.
+//백준 2011번. 암호코드. 골드5. 240928 solved.
 //내가 놓치고 있었던 반례: input-100 / output-0
 
 #include <iostream>
